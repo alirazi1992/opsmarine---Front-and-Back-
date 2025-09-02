@@ -1,3 +1,18 @@
+# 🌊 MarineOps 2025 — Vessel Tracking, Fuel Intelligence & IT Ticketing
+ a modern, full-stack marine operations dashboard that tracks vessels, monitors fuel usage (with ML -style efficiency insights), and manags IT tickets — all in one place. 
+
+ ----
+
+ # ✨ Highlights
+
+ 
+ 
+
+
+
+
+
+
 # OpsMarine Frontend
 
 A modern frontend for the OpsMarine application — leveraging Tailwind CSS and a component-based architecture to build a responsive, clean, and efficient user interface for marine operations.
@@ -57,3 +72,4 @@ For questions or collaboration opportunities:
 **📧 Email:** ali.razi9292@gmail.com
 
 **🔗 LinkedIn:** linkedin.com/in/alirazi1992
+
