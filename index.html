@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MarineOps 2025</title>
+
+  <!-- Tailwind (dev only) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+          integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+          crossorigin=""></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap');
+
+    :root{
+      --primary:#0ea5e9; --secondary:#1e40af; --accent:#22d3ee;
+      --dark:#0f172a; --darker:#020617; --glass:rgba(15,23,42,.7);
+      --panel-b:#1e293b;
+      --text:#e2e8f0; --muted:#94a3b8;
+    }
+    body{
+      font-family:'Rubik',sans-serif;
+      background-color:var(--darker);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+    .glass-panel{
+      background:var(--glass);
+      backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+      border:1px solid rgba(30,64,175,.3);
+      box-shadow:0 4px 30px rgba(0,0,0,.1);
+    }
+    .rtl{ direction:rtl; }
+
+    /* Mobile sidebar behavior */
+    .sidebar{ transition:all .3s ease; }
+    @media (max-width:768px){
+      .sidebar{ position:fixed; left:-100%; top:0; z-index:50; height:100vh; }
+      .sidebar.open{ left:0; }
+      .overlay{ position:fixed; inset:0; background-color:rgba(0,0,0,.5); z-index:40; display:none; }
+      .overlay.open{ display:block; }
+    }
+
+    a.nav-active{ background-color:rgba(30,58,138,.35); color:#22d3ee; }
+
+    /* Map tooltip */
+    .maptip { background: rgba(2,6,23,.9); color:#e2e8f0; border:1px solid rgba(30,64,175,.5); padding:6px 8px; border-radius:.5rem; }
+
+    /* Fuel gauge base */
+    .fuel-gauge { position:relative; width:100px; height:100px; }
+    .fuel-gauge-circle{ fill:none; stroke-width:10; stroke-linecap:round; transform:rotate(-90deg); transform-origin:50% 50%; }
+    .fuel-gauge-bg{ stroke:rgba(30,64,175,.3); }
+    .fuel-gauge-fill{ stroke:var(--accent); transition:stroke-dashoffset .5s ease; }
+
+    /* Light theme overrides */
+    .light body, body.light { background:#f8fafc; color:#0f172a; }
+    body.light .glass-panel{ background:rgba(255,255,255,.7); border-color:#cbd5e1; }
+    body.light .bg-slate-900,
+    body.light .bg-slate-900\/70,
+    body.light .bg-slate-800\/50{ background:rgba(255,255,255,.7)!important; }
+    body.light .text-slate-200{ color:#0f172a!important; }
+    body.light .text-slate-400{ color:#334155!important; }
+    body.light .border-slate-800\/50{ border-color:#cbd5e1!important; }
+    body.light .bg-blue-900\/30{ background:rgba(2,132,199,.12)!important; }
+    body.light .bg-blue-900\/50{ background:rgba(2,132,199,.18)!important; }
+  </style>
+</head>
+
+<body class="bg-slate-900 text-slate-200">
+  <!-- Overlay for mobile sidebar -->
+  <div class="overlay" id="overlay"></div>
+
+  <!-- Sidebar -->
+  <div class="sidebar fixed top-0 left-0 h-screen w-64 bg-slate-900/70 backdrop-blur-lg border-r border-slate-800/50 z-30" id="sidebar">
+    <div class="p-4 flex items-center justify-between border-b border-slate-800/50">
+      <div class="flex items-center space-x-2">
+        <div class="w-8 h-8 rounded-full bg-cyan-500 flex items-center justify-center"><i class="fas fa-anchor text-white"></i></div>
+        <span class="text-xl font-bold text-cyan-400">MarineOps</span>
+        <span class="text-xs bg-blue-900/50 text-cyan-300 px-2 py-0.5 rounded-full">2025</span>
+      </div>
+      <button class="md:hidden text-slate-400 hover:text-white" id="closeSidebar"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="p-4">
+      <div class="mb-6">
+        <div class="text-xs uppercase text-slate-500 font-semibold mb-2 tracking-wider">Navigation</div>
+        <ul class="space-y-1">
+          <li><a href="#/dashboard" class="flex items-center space-x-3 p-2 rounded-lg navlink"><i class="fas fa-tachometer-alt w-5 text-center"></i><span>Dashboard</span></a></li>
+          <li><a href="#/vessels"   class="flex items-center space-x-3 p-2 rounded-lg navlink"><i class="fas fa-ship w-5 text-center"></i><span>Vessel Tracking</span></a></li>
+          <li><a href="#/tickets"   class="flex items-center space-x-3 p-2 rounded-lg navlink"><i class="fas fa-ticket-alt w-5 text-center"></i><span>IT Ticketing</span></a></li>
+          <li><a href="#/fuel"      class="flex items-center space-x-3 p-2 rounded-lg navlink"><i class="fas fa-gas-pump w-5 text-center"></i><span>Fuel Monitoring</span></a></li>
+          <li><a href="#/settings"  class="flex items-center space-x-3 p-2 rounded-lg navlink"><i class="fas fa-cog w-5 text-center"></i><span>Settings</span></a></li>
+        </ul>
+      </div>
+
+      <div class="mb-6">
+        <div class="text-xs uppercase text-slate-500 font-semibold mb-2 tracking-wider">Quick Actions</div>
+        <ul class="space-y-1">
+          <li><a href="#/new-ticket" class="flex items-center space-x-3 p-2 rounded-lg navlink"><i class="fas fa-plus-circle w-5 text-center"></i><span>New Ticket</span></a></li>
+          <li><a href="#/alerts"     class="flex items-center space-x-3 p-2 rounded-lg navlink"><i class="fas fa-bell w-5 text-center"></i><span>Alerts</span><span id="alerts-count" class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full">0</span></a></li>
+          <li><a href="#/reports"    class="flex items-center space-x-3 p-2 rounded-lg navlink"><i class="fas fa-chart-line w-5 text-center"></i><span>Reports</span></a></li>
+        </ul>
+      </div>
+
+      <div class="p-4 bg-slate-800/30 rounded-lg">
+        <div class="text-sm font-medium mb-2">System Status</div>
+        <div class="flex items-center justify-between text-xs mb-1"><span>Vessel Tracking</span><span class="text-green-400 flex items-center"><i class="fas fa-circle mr-1 text-[6px]"></i> Active</span></div>
+        <div class="flex items-center justify-between text-xs mb-1"><span>Fuel Sensors</span><span class="text-yellow-400 flex items-center"><i class="fas fa-circle mr-1 text-[6px]"></i> 2 Issues</span></div>
+        <div class="flex items-center justify-between text-xs"><span>API Connection</span><span class="text-green-400 flex items-center"><i class="fas fa-circle mr-1 text-[6px]"></i> Stable</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="ml-0 md:ml-64 transition-all duration-300">
+    <!-- Top Bar -->
+    <div class="glass-panel sticky top-0 z-20 flex items-center justify-between p-4 border-b border-slate-800/50">
+      <div class="flex items-center space-x-4">
+        <button class="md:hidden text-slate-300 hover:text-white" id="openSidebar"><i class="fas fa-bars"></i></button>
+        <div class="relative">
+          <input id="global-search" type="text" placeholder="Search vessels, tickets..." class="bg-slate-800/50 border border-slate-700 rounded-lg pl-10 pr-4 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 text-sm">
+          <i class="fas fa-search absolute left-3 top-3 text-slate-500"></i>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-4">
+        <button id="btnBell" class="w-10 h-10 rounded-full flex items-center justify-center bg-slate-800/50 hover:bg-slate-700/50 transition relative">
+          <i class="fas fa-bell text-slate-300"></i>
+          <span id="bellDot" class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full hidden"></span>
+        </button>
+
+        <button id="btnUser" class="flex items-center space-x-2">
+          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 flex items-center justify-center">
+            <span class="text-white font-medium text-sm">AD</span>
+          </div>
+          <div class="hidden md:block text-left">
+            <div class="text-sm font-medium">Admin User</div>
+            <div class="text-xs text-slate-400">Administrator</div>
+          </div>
+        </button>
+
+        <div class="flex items-center space-x-2 bg-slate-800/50 rounded-lg p-1">
+          <button id="btnLight" class="px-2 py-1 rounded text-xs hover:bg-slate-700/50"><i class="fas fa-sun mr-1"></i> Light</button>
+          <button id="btnDark"  class="px-2 py-1 rounded text-xs bg-blue-900/50 text-cyan-400"><i class="fas fa-moon mr-1"></i> Dark</button>
+        </div>
+
+        <div class="flex items-center space-x-2 bg-slate-800/50 rounded-lg p-1">
+          <button id="btnEN" class="px-2 py-1 rounded text-xs hover:bg-slate-700/50"><i class="fas fa-language mr-1"></i> EN</button>
+          <button id="btnFA" class="px-2 py-1 rounded text-xs bg-blue-900/50 text-cyan-400"><span class="mr-1">FA</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Route mount -->
+    <div id="view" class="p-6"></div>
+  </div>
+
+  <!-- DASHBOARD TEMPLATE -->
+  <template id="tmpl-dashboard">
+    <div>
+      <!-- Title row cleaned: removed duplicate “Dashboard Overview” -->
+      <div class="flex items-center justify-end mb-6">
+        <div class="flex items-center space-x-2">
+          <span class="text-sm text-slate-400">Last updated: Just now</span>
+          <button class="text-cyan-400 hover:text-cyan-300"><i class="fas fa-sync-alt"></i></button>
+        </div>
+      </div>
+
+      <!-- KPI Cards (clickable) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <button id="kpi-card-active-vessels" class="glass-panel rounded-2xl p-4 border border-slate-800/50 hover:border-cyan-500/40 transition text-left">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm text-slate-400">Active Vessels</div>
+              <div id="kpi-active-vessels" class="text-2xl font-bold mt-1">0</div>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-blue-900/30 flex items-center justify-center text-cyan-400"><i class="fas fa-ship text-xl"></i></div>
+          </div>
+        </button>
+
+        <button id="kpi-card-open-tickets" class="glass-panel rounded-2xl p-4 border border-slate-800/50 hover:border-cyan-500/40 transition text-left">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm text-slate-400">Open Tickets</div>
+              <div id="kpi-open-tickets" class="text-2xl font-bold mt-1">0</div>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-blue-900/30 flex items-center justify-center text-cyan-400"><i class="fas fa-ticket-alt text-xl"></i></div>
+          </div>
+        </button>
+
+        <button id="kpi-card-total-fuel" class="glass-panel rounded-2xl p-4 border border-slate-800/50 hover:border-cyan-500/40 transition text-left">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm text-slate-400">Total Fuel (L)</div>
+              <div id="kpi-total-fuel" class="text-2xl font-bold mt-1">0</div>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-blue-900/30 flex items-center justify-center text-cyan-400"><i class="fas fa-gas-pump text-xl"></i></div>
+          </div>
+        </button>
+
+        <button id="kpi-card-alerts" class="glass-panel rounded-2xl p-4 border border-slate-800/50 hover:border-cyan-500/40 transition text-left">
+          <div class="flex items-center justify-between">
+            <div>
+              <div class="text-sm text-slate-400">Alerts</div>
+              <div id="kpi-alerts" class="text-2xl font-bold mt-1">0</div>
+            </div>
+            <div class="w-12 h-12 rounded-full bg-blue-900/30 flex items-center justify-center text-cyan-400"><i class="fas fa-bell text-xl"></i></div>
+          </div>
+        </button>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <!-- Vessel Map -->
+        <div class="lg:col-span-2">
+          <div class="glass-panel rounded-2xl p-4 border border-slate-800/50 h-full">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-semibold">Vessel Tracking Map</h2>
+              <div class="flex items-center space-x-2">
+                <div class="relative">
+                  <select id="map-filter" class="bg-slate-800/50 border border-slate-700 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-cyan-500/50 focus:border-cyan-500 appearance-none pr-8">
+                    <option value="all">All Vessels</option>
+                    <option value="cargo">Cargo Ships</option>
+                    <option value="tanker">Tankers</option>
+                    <option value="support">Support Vessels</option>
+                  </select>
+                  <i class="fas fa-chevron-down absolute right-3 top-2 text-xs text-slate-400"></i>
+                </div>
+              </div>
+            </div>
+            <div id="leaflet-map-dashboard" class="h-96 rounded-xl overflow-hidden"></div>
+            <div class="mt-2 text-[11px] text-slate-500">
+              Map data © <a class="underline" target="_blank" href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Tickets (filled by main.js) -->
+        <div>
+          <div class="glass-panel rounded-2xl p-4 border border-slate-800/50 h-full">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-semibold">Recent Tickets</h2>
+              <a href="#/new-ticket" class="bg-blue-900/50 text-cyan-400 px-3 py-1 rounded-lg text-sm hover:bg-blue-900/70 transition"><i class="fas fa-plus mr-1"></i> New</a>
+            </div>
+            <div id="recent-tickets" class="space-y-4"></div>
+            <div class="text-center mt-4">
+              <a href="#/tickets" class="text-cyan-400 hover:text-cyan-300 text-sm"><i class="fas fa-list mr-1"></i> View All Tickets</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fuel preview -->
+      <div class="mt-6">
+        <div class="glass-panel rounded-2xl p-4 border border-slate-800/50">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold">Fuel Monitoring</h2>
+            <a href="#/fuel" class="bg-blue-900/50 text-cyan-400 px-3 py-1 rounded-lg text-sm hover:bg-blue-900/70 transition">
+              <i class="fas fa-plus mr-1"></i> Add Fuel
+            </a>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="fuel-preview"></div>
+          <div class="mt-4">
+            <a href="#/fuel" class="text-cyan-400 hover:text-cyan-300 text-sm">
+              <i class="fas fa-history mr-1"></i> View Fuel Logs
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity & Alerts -->
+      <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="glass-panel rounded-2xl p-4 border border-slate-800/50">
+          <h2 class="text-lg font-semibold mb-4">Recent Activity</h2>
+          <div id="recent-activity" class="space-y-3"></div>
+        </div>
+        <div class="glass-panel rounded-2xl p-4 border border-slate-800/50">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-semibold">System Alerts</h2>
+            <a href="#/alerts" class="text-cyan-400 hover:text-cyan-300 text-sm"><i class="fas fa-bell mr-1"></i> View</a>
+          </div>
+          <div id="system-alerts" class="space-y-3"></div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- Modal root -->
+  <div id="modal-root"></div>
+
+  <!-- App -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

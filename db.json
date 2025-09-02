@@ -1,0 +1,950 @@
+{
+  "vessels": [
+    {
+      "id": "1",
+      "name": "SEA DAWN",
+      "imo": "9876543",
+      "status": "At Berth",
+      "eta": "2025-08-28T16:30:00Z",
+      "lat": 25.27,
+      "lon": 55.3,
+      "type": "cargo"
+    },
+    {
+      "id": "2",
+      "name": "BLUE HARBOR",
+      "imo": "9731122",
+      "status": "Underway",
+      "eta": "2025-08-28T05:10:00Z",
+      "lat": 26.1,
+      "lon": 57.21,
+      "type": "tanker"
+    },
+    {
+      "id": "3",
+      "name": "ALPHA WAVE",
+      "imo": "9588776",
+      "status": "Anchored",
+      "eta": "2025-08-28T20:45:00Z",
+      "lat": 23.9,
+      "lon": 53.7,
+      "type": "support"
+    },
+    {
+      "id": "4",
+      "name": "MV Oceanic",
+      "imo": "9012345",
+      "status": "Underway",
+      "eta": "2025-08-29T10:00:00Z"
+    },
+    {
+      "id": "5",
+      "name": "MV Horizon",
+      "imo": "9016789",
+      "status": "At Sea",
+      "eta": "2025-08-29T22:00:00Z"
+    },
+    {
+      "id": "6",
+      "name": "MV Explorer",
+      "imo": "9023456",
+      "status": "At Berth",
+      "eta": "2025-08-30T06:30:00Z"
+    },
+    {
+      "id": "7",
+      "name": "MV Sentinel",
+      "imo": "9034567",
+      "status": "Underway",
+      "eta": "2025-08-31T03:30:00Z"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "101",
+      "title": "Radar intermittent",
+      "vesselId": 2,
+      "priority": "High",
+      "status": "Closed"
+    },
+    {
+      "id": "102",
+      "title": "Engine sensor alert",
+      "vesselId": 1,
+      "priority": "Medium",
+      "status": "In Progress"
+    },
+    {
+      "id": "103",
+      "title": "Network outage in bridge",
+      "vesselId": 3,
+      "priority": "Low",
+      "status": "Closed"
+    },
+    {
+      "id": "f642",
+      "title": "Hi",
+      "vesselId": 1,
+      "priority": "Low",
+      "status": "Open"
+    },
+    {
+      "id": "104",
+      "title": "ECDIS chart update pending",
+      "vesselId": 4,
+      "priority": "Low",
+      "status": "Open"
+    },
+    {
+      "id": "105",
+      "title": "Ballast pump vibration",
+      "vesselId": 5,
+      "priority": "High",
+      "status": "Open"
+    },
+    {
+      "id": "106",
+      "title": "VSAT unstable link",
+      "vesselId": 6,
+      "priority": "Medium",
+      "status": "In Progress"
+    },
+    {
+      "id": "107",
+      "title": "Bridge console reboot loop",
+      "vesselId": 7,
+      "priority": "High",
+      "status": "Open"
+    }
+  ],
+  "fuel": [
+    {
+      "id": "1",
+      "name": "Main Tank",
+      "percent": 90,
+      "type": "Diesel",
+      "vessel": "MV Oceanic",
+      "capacity": 20000,
+      "liters": 18022
+    },
+    {
+      "id": "2",
+      "name": "Auxiliary Tank",
+      "percent": 23,
+      "type": "Diesel",
+      "vessel": "MV Oceanic",
+      "capacity": 20000,
+      "liters": 4600
+    },
+    {
+      "id": "3",
+      "name": "Port Tank",
+      "percent": 47,
+      "type": "Diesel",
+      "vessel": "MV Horizon",
+      "capacity": 20000,
+      "liters": 9400
+    },
+    {
+      "id": "4",
+      "name": "Starboard Tank",
+      "percent": 65,
+      "type": "Diesel",
+      "vessel": "MV Horizon",
+      "capacity": 20000,
+      "liters": 12978
+    },
+    {
+      "id": "5",
+      "name": "Day Tank",
+      "percent": 57,
+      "type": "MGO",
+      "vessel": "MV Oceanic",
+      "capacity": 5000,
+      "liters": 2850
+    },
+    {
+      "id": "6",
+      "name": "LNG Tank",
+      "percent": 60,
+      "type": "LNG",
+      "vessel": "MV Explorer",
+      "capacity": 30000,
+      "liters": 18000
+    },
+    {
+      "id": "7",
+      "name": "HFO Tank",
+      "percent": 30,
+      "type": "HFO",
+      "vessel": "MV Sentinel",
+      "capacity": 40000,
+      "liters": 12000
+    },
+    {
+      "id": "8",
+      "name": "Biofuel Reserve",
+      "percent": 65,
+      "type": "Biofuel",
+      "vessel": "SEA DAWN",
+      "capacity": 10000,
+      "liters": 6500
+    }
+  ],
+  "alerts": [
+    {
+      "id": "1",
+      "level": "High",
+      "message": "Engine temp spike",
+      "vesselId": 2,
+      "createdAt": "2025-08-27T09:00:00Z"
+    },
+    {
+      "id": "2",
+      "level": "Medium",
+      "message": "Radar intermittent",
+      "vesselId": 2,
+      "createdAt": "2025-08-27T09:30:00Z"
+    },
+    {
+      "id": "3",
+      "level": "High",
+      "message": "Fuel sensor drift detected",
+      "vesselId": 5,
+      "createdAt": "2025-08-28T15:40:00Z"
+    },
+    {
+      "id": "4",
+      "level": "Low",
+      "message": "Battery backup warning",
+      "vesselId": 6,
+      "createdAt": "2025-08-28T18:05:00Z"
+    }
+  ],
+  "reports": [
+    {
+      "id": "1",
+      "title": "Daily Vessel Summary",
+      "type": "Daily",
+      "createdAt": "2025-08-27T06:00:00Z",
+      "url": ""
+    },
+    {
+      "id": "2",
+      "title": "Fuel Usage QTD",
+      "type": "Analytics",
+      "createdAt": "2025-08-26T12:00:00Z",
+      "url": ""
+    },
+    {
+      "id": "3",
+      "title": "Ticket SLA Dashboard",
+      "type": "Weekly",
+      "createdAt": "2025-08-25T07:00:00Z",
+      "url": ""
+    },
+    {
+      "id": "4",
+      "title": "Sensor Health Snapshot",
+      "type": "Daily",
+      "createdAt": "2025-08-28T06:00:00Z",
+      "url": ""
+    }
+  ],
+  "fuel_logs": [
+    {
+      "id": "L101",
+      "tankId": "1",
+      "createdAt": "2025-08-24T12:00:00Z",
+      "liters": 18600,
+      "delta": 0,
+      "distance_nm": 0,
+      "location": "near port",
+      "lat": 24.4,
+      "lon": 53.9
+    },
+    {
+      "id": "L102",
+      "tankId": "1",
+      "createdAt": "2025-08-24T20:00:00Z",
+      "liters": 18120,
+      "delta": -480,
+      "distance_nm": 12.1,
+      "location": "at sea",
+      "lat": 24.55,
+      "lon": 54.2
+    },
+    {
+      "id": "L103",
+      "tankId": "1",
+      "createdAt": "2025-08-25T04:00:00Z",
+      "liters": 17620,
+      "delta": -500,
+      "distance_nm": 14.8,
+      "location": "at sea",
+      "lat": 24.7,
+      "lon": 54.5
+    },
+    {
+      "id": "L104",
+      "tankId": "1",
+      "createdAt": "2025-08-25T12:00:00Z",
+      "liters": 17320,
+      "delta": -300,
+      "distance_nm": 10.9,
+      "location": "at sea",
+      "lat": 24.95,
+      "lon": 55.05
+    },
+    {
+      "id": "L105",
+      "tankId": "1",
+      "createdAt": "2025-08-26T09:00:00Z",
+      "liters": 18520,
+      "delta": 1200,
+      "distance_nm": 0,
+      "location": "bunkered",
+      "lat": 25.1,
+      "lon": 55.6
+    },
+    {
+      "id": "L106",
+      "tankId": "1",
+      "createdAt": "2025-08-26T18:00:00Z",
+      "liters": 17820,
+      "delta": -700,
+      "distance_nm": 21.7,
+      "location": "at sea",
+      "lat": 25.3,
+      "lon": 56
+    },
+    {
+      "id": "L107",
+      "tankId": "1",
+      "createdAt": "2025-08-27T04:00:00Z",
+      "liters": 17220,
+      "delta": -600,
+      "distance_nm": 19.9,
+      "location": "at sea",
+      "lat": 25.55,
+      "lon": 56.4
+    },
+    {
+      "id": "L108",
+      "tankId": "1",
+      "createdAt": "2025-08-27T16:00:00Z",
+      "liters": 16720,
+      "delta": -500,
+      "distance_nm": 15.3,
+      "location": "near port",
+      "lat": 25.75,
+      "lon": 56.9
+    },
+    {
+      "id": "L109",
+      "tankId": "1",
+      "createdAt": "2025-08-28T06:30:00Z",
+      "liters": 16110,
+      "delta": -610,
+      "distance_nm": 14.1,
+      "location": "at sea",
+      "lat": 26,
+      "lon": 57.2
+    },
+    {
+      "id": "L110",
+      "tankId": "1",
+      "createdAt": "2025-08-28T12:30:00Z",
+      "liters": 15970,
+      "delta": -140,
+      "distance_nm": 4.8,
+      "location": "at sea",
+      "lat": 26.1,
+      "lon": 57.35
+    },
+    {
+      "id": "L201",
+      "tankId": "2",
+      "createdAt": "2025-08-24T12:00:00Z",
+      "liters": 5200,
+      "delta": 0,
+      "distance_nm": 0,
+      "location": "near port",
+      "lat": 24.4,
+      "lon": 53.9
+    },
+    {
+      "id": "L202",
+      "tankId": "2",
+      "createdAt": "2025-08-25T02:00:00Z",
+      "liters": 4400,
+      "delta": -800,
+      "distance_nm": 9,
+      "location": "at sea",
+      "lat": 24.65,
+      "lon": 54.35
+    },
+    {
+      "id": "L203",
+      "tankId": "2",
+      "createdAt": "2025-08-25T10:00:00Z",
+      "liters": 3700,
+      "delta": -700,
+      "distance_nm": 8.1,
+      "location": "at sea",
+      "lat": 24.9,
+      "lon": 54.9
+    },
+    {
+      "id": "L204",
+      "tankId": "2",
+      "createdAt": "2025-08-26T12:00:00Z",
+      "liters": 4100,
+      "delta": 400,
+      "distance_nm": 0,
+      "location": "bunkered",
+      "lat": 25.25,
+      "lon": 55.8
+    },
+    {
+      "id": "L205",
+      "tankId": "2",
+      "createdAt": "2025-08-27T03:00:00Z",
+      "liters": 3300,
+      "delta": -800,
+      "distance_nm": 7.7,
+      "location": "at sea",
+      "lat": 25.55,
+      "lon": 56.3
+    },
+    {
+      "id": "L206",
+      "tankId": "2",
+      "createdAt": "2025-08-27T20:00:00Z",
+      "liters": 3200,
+      "delta": -100,
+      "distance_nm": 3.2,
+      "location": "near port",
+      "lat": 25.8,
+      "lon": 56.85
+    },
+    {
+      "id": "L207",
+      "tankId": "2",
+      "createdAt": "2025-08-28T06:00:00Z",
+      "liters": 2850,
+      "delta": -350,
+      "distance_nm": 4.1,
+      "location": "at sea",
+      "lat": 26.05,
+      "lon": 57.25
+    },
+    {
+      "id": "L208",
+      "tankId": "2",
+      "createdAt": "2025-08-28T10:00:00Z",
+      "liters": 4600,
+      "delta": 1750,
+      "distance_nm": 0,
+      "location": "bunkered",
+      "lat": 26.1,
+      "lon": 57.35
+    },
+    {
+      "id": "L301",
+      "tankId": "3",
+      "createdAt": "2025-08-25T06:00:00Z",
+      "liters": 10000,
+      "delta": 0,
+      "distance_nm": 0,
+      "location": "near port",
+      "lat": 22.1,
+      "lon": 52
+    },
+    {
+      "id": "L302",
+      "tankId": "3",
+      "createdAt": "2025-08-25T16:00:00Z",
+      "liters": 9100,
+      "delta": -900,
+      "distance_nm": 27.5,
+      "location": "at sea",
+      "lat": 22.35,
+      "lon": 52.4
+    },
+    {
+      "id": "L303",
+      "tankId": "3",
+      "createdAt": "2025-08-26T07:30:00Z",
+      "liters": 8500,
+      "delta": -600,
+      "distance_nm": 11.4,
+      "location": "at sea",
+      "lat": 22.7,
+      "lon": 52.9
+    },
+    {
+      "id": "L304",
+      "tankId": "3",
+      "createdAt": "2025-08-26T20:15:00Z",
+      "liters": 9700,
+      "delta": 1200,
+      "distance_nm": 0,
+      "location": "bunkered",
+      "lat": 23,
+      "lon": 53.4
+    },
+    {
+      "id": "L305",
+      "tankId": "3",
+      "createdAt": "2025-08-27T11:00:00Z",
+      "liters": 9000,
+      "delta": -700,
+      "distance_nm": 25.9,
+      "location": "at sea",
+      "lat": 23.3,
+      "lon": 53.85
+    },
+    {
+      "id": "L306",
+      "tankId": "3",
+      "createdAt": "2025-08-27T22:00:00Z",
+      "liters": 8600,
+      "delta": -400,
+      "distance_nm": 27.3,
+      "location": "near port",
+      "lat": 23.55,
+      "lon": 54.25
+    },
+    {
+      "id": "L307",
+      "tankId": "3",
+      "createdAt": "2025-08-28T06:00:00Z",
+      "liters": 9400,
+      "delta": 800,
+      "distance_nm": 0,
+      "location": "bunkered",
+      "lat": 23.9,
+      "lon": 54.7
+    },
+    {
+      "id": "L401",
+      "tankId": "4",
+      "createdAt": "2025-08-25T06:00:00Z",
+      "liters": 14500,
+      "delta": 0,
+      "distance_nm": 0,
+      "location": "near port",
+      "lat": 22.1,
+      "lon": 52
+    },
+    {
+      "id": "L402",
+      "tankId": "4",
+      "createdAt": "2025-08-25T15:00:00Z",
+      "liters": 13900,
+      "delta": -600,
+      "distance_nm": 18.9,
+      "location": "at sea",
+      "lat": 22.3,
+      "lon": 52.35
+    },
+    {
+      "id": "L403",
+      "tankId": "4",
+      "createdAt": "2025-08-26T09:30:00Z",
+      "liters": 13200,
+      "delta": -700,
+      "distance_nm": 16.7,
+      "location": "at sea",
+      "lat": 22.7,
+      "lon": 52.95
+    },
+    {
+      "id": "L404",
+      "tankId": "4",
+      "createdAt": "2025-08-26T18:45:00Z",
+      "liters": 14000,
+      "delta": 800,
+      "distance_nm": 0,
+      "location": "bunkered",
+      "lat": 23,
+      "lon": 53.4
+    },
+    {
+      "id": "L405",
+      "tankId": "4",
+      "createdAt": "2025-08-27T08:10:00Z",
+      "liters": 13100,
+      "delta": -900,
+      "distance_nm": 22.6,
+      "location": "at sea",
+      "lat": 23.35,
+      "lon": 53.95
+    },
+    {
+      "id": "L406",
+      "tankId": "4",
+      "createdAt": "2025-08-27T21:20:00Z",
+      "liters": 13300,
+      "delta": 200,
+      "distance_nm": 0,
+      "location": "near port",
+      "lat": 23.6,
+      "lon": 54.3
+    },
+    {
+      "id": "L407",
+      "tankId": "4",
+      "createdAt": "2025-08-28T06:00:00Z",
+      "liters": 13000,
+      "delta": -300,
+      "distance_nm": 9.3,
+      "location": "at sea",
+      "lat": 23.8,
+      "lon": 54.55
+    },
+    {
+      "id": "L501",
+      "tankId": "5",
+      "createdAt": "2025-08-25T05:00:00Z",
+      "liters": 3400,
+      "delta": 0,
+      "distance_nm": 0,
+      "location": "near port",
+      "lat": 25,
+      "lon": 55.2
+    },
+    {
+      "id": "L502",
+      "tankId": "5",
+      "createdAt": "2025-08-25T12:00:00Z",
+      "liters": 3150,
+      "delta": -250,
+      "distance_nm": 6.4,
+      "location": "at sea",
+      "lat": 25.1,
+      "lon": 55.4
+    },
+    {
+      "id": "L503",
+      "tankId": "5",
+      "createdAt": "2025-08-26T03:00:00Z",
+      "liters": 2950,
+      "delta": -200,
+      "distance_nm": 5.3,
+      "location": "at sea",
+      "lat": 25.3,
+      "lon": 55.8
+    },
+    {
+      "id": "L504",
+      "tankId": "5",
+      "createdAt": "2025-08-26T15:00:00Z",
+      "liters": 3300,
+      "delta": 350,
+      "distance_nm": 0,
+      "location": "bunkered",
+      "lat": 25.35,
+      "lon": 56
+    },
+    {
+      "id": "L505",
+      "tankId": "5",
+      "createdAt": "2025-08-27T06:00:00Z",
+      "liters": 3000,
+      "delta": -300,
+      "distance_nm": 7.1,
+      "location": "at sea",
+      "lat": 25.6,
+      "lon": 56.3
+    },
+    {
+      "id": "L506",
+      "tankId": "5",
+      "createdAt": "2025-08-28T08:30:00Z",
+      "liters": 2850,
+      "delta": -150,
+      "distance_nm": 3.2,
+      "location": "at sea",
+      "lat": 26,
+      "lon": 57
+    },
+    {
+      "id": "L601",
+      "tankId": "6",
+      "createdAt": "2025-08-24T22:00:00Z",
+      "liters": 21000,
+      "delta": 0,
+      "distance_nm": 0,
+      "location": "at berth",
+      "lat": 35.1,
+      "lon": -1.2
+    },
+    {
+      "id": "L602",
+      "tankId": "6",
+      "createdAt": "2025-08-25T10:00:00Z",
+      "liters": 20200,
+      "delta": -800,
+      "distance_nm": 32.2,
+      "location": "at sea",
+      "lat": 34.7,
+      "lon": -2
+    },
+    {
+      "id": "L603",
+      "tankId": "6",
+      "createdAt": "2025-08-26T01:00:00Z",
+      "liters": 19500,
+      "delta": -700,
+      "distance_nm": 28.6,
+      "location": "at sea",
+      "lat": 34,
+      "lon": -3.2
+    },
+    {
+      "id": "L604",
+      "tankId": "6",
+      "createdAt": "2025-08-26T20:00:00Z",
+      "liters": 20500,
+      "delta": 1000,
+      "distance_nm": 0,
+      "location": "bunkered",
+      "lat": 33.6,
+      "lon": -3.9
+    },
+    {
+      "id": "L605",
+      "tankId": "6",
+      "createdAt": "2025-08-27T14:00:00Z",
+      "liters": 19200,
+      "delta": -1300,
+      "distance_nm": 41.5,
+      "location": "at sea",
+      "lat": 33.1,
+      "lon": -4.8
+    },
+    {
+      "id": "L606",
+      "tankId": "6",
+      "createdAt": "2025-08-28T07:30:00Z",
+      "liters": 18000,
+      "delta": -1200,
+      "distance_nm": 36.4,
+      "location": "at sea",
+      "lat": 32.6,
+      "lon": -5.4
+    },
+    {
+      "id": "L701",
+      "tankId": "7",
+      "createdAt": "2025-08-24T18:00:00Z",
+      "liters": 16000,
+      "delta": 0,
+      "distance_nm": 0,
+      "location": "at berth",
+      "lat": 12.2,
+      "lon": 44.1
+    },
+    {
+      "id": "L702",
+      "tankId": "7",
+      "createdAt": "2025-08-25T08:00:00Z",
+      "liters": 14900,
+      "delta": -1100,
+      "distance_nm": 48.2,
+      "location": "at sea",
+      "lat": 12.6,
+      "lon": 44.9
+    },
+    {
+      "id": "L703",
+      "tankId": "7",
+      "createdAt": "2025-08-26T00:00:00Z",
+      "liters": 13850,
+      "delta": -1050,
+      "distance_nm": 45,
+      "location": "at sea",
+      "lat": 13,
+      "lon": 45.8
+    },
+    {
+      "id": "L704",
+      "tankId": "7",
+      "createdAt": "2025-08-26T16:00:00Z",
+      "liters": 15050,
+      "delta": 1200,
+      "distance_nm": 0,
+      "location": "bunkered",
+      "lat": 13.3,
+      "lon": 46.6
+    },
+    {
+      "id": "L705",
+      "tankId": "7",
+      "createdAt": "2025-08-27T10:00:00Z",
+      "liters": 13200,
+      "delta": -1850,
+      "distance_nm": 60.7,
+      "location": "at sea",
+      "lat": 13.8,
+      "lon": 47.5
+    },
+    {
+      "id": "L706",
+      "tankId": "7",
+      "createdAt": "2025-08-28T02:00:00Z",
+      "liters": 12000,
+      "delta": -1200,
+      "distance_nm": 39.8,
+      "location": "at sea",
+      "lat": 14.1,
+      "lon": 48.2
+    },
+    {
+      "id": "L801",
+      "tankId": "8",
+      "createdAt": "2025-08-25T06:00:00Z",
+      "liters": 7000,
+      "delta": 0,
+      "distance_nm": 0,
+      "location": "at berth",
+      "lat": 24.9,
+      "lon": 55
+    },
+    {
+      "id": "L802",
+      "tankId": "8",
+      "createdAt": "2025-08-25T18:00:00Z",
+      "liters": 6800,
+      "delta": -200,
+      "distance_nm": 3.1,
+      "location": "harbor run",
+      "lat": 24.95,
+      "lon": 55.1
+    },
+    {
+      "id": "L803",
+      "tankId": "8",
+      "createdAt": "2025-08-26T09:00:00Z",
+      "liters": 6650,
+      "delta": -150,
+      "distance_nm": 2.2,
+      "location": "harbor run",
+      "lat": 25,
+      "lon": 55.15
+    },
+    {
+      "id": "L804",
+      "tankId": "8",
+      "createdAt": "2025-08-27T03:00:00Z",
+      "liters": 6500,
+      "delta": -150,
+      "distance_nm": 2,
+      "location": "harbor run",
+      "lat": 25.05,
+      "lon": 55.2
+    }
+  ],
+  "vessel_tracks": [
+    {
+      "id": "vt-hrz-1",
+      "vessel": "MV Horizon",
+      "time": "2025-08-25T00:00:00Z",
+      "lat": 36.1,
+      "lon": -6
+    },
+    {
+      "id": "vt-hrz-2",
+      "vessel": "MV Horizon",
+      "time": "2025-08-25T12:00:00Z",
+      "lat": 28.4,
+      "lon": -16.3
+    },
+    {
+      "id": "vt-hrz-3",
+      "vessel": "MV Horizon",
+      "time": "2025-08-26T00:00:00Z",
+      "lat": 25.8,
+      "lon": -30.1
+    },
+    {
+      "id": "vt-hrz-4",
+      "vessel": "MV Horizon",
+      "time": "2025-08-26T12:00:00Z",
+      "lat": 18,
+      "lon": -45.5
+    },
+    {
+      "id": "vt-hrz-5",
+      "vessel": "MV Horizon",
+      "time": "2025-08-27T00:00:00Z",
+      "lat": 12.2,
+      "lon": -38.7
+    },
+    {
+      "id": "vt-hrz-6",
+      "vessel": "MV Horizon",
+      "time": "2025-08-27T12:00:00Z",
+      "lat": 22.3,
+      "lon": -14.8
+    },
+    {
+      "id": "vt-hrz-7",
+      "vessel": "MV Horizon",
+      "time": "2025-08-28T00:00:00Z",
+      "lat": 31.9,
+      "lon": 2.7
+    },
+    {
+      "id": "vt-ocn-1",
+      "vessel": "MV Oceanic",
+      "time": "2025-08-25T00:00:00Z",
+      "lat": 24.5,
+      "lon": 54.1
+    },
+    {
+      "id": "vt-ocn-2",
+      "vessel": "MV Oceanic",
+      "time": "2025-08-26T00:00:00Z",
+      "lat": 25.1,
+      "lon": 55.6
+    },
+    {
+      "id": "vt-ocn-3",
+      "vessel": "MV Oceanic",
+      "time": "2025-08-27T00:00:00Z",
+      "lat": 25.7,
+      "lon": 56.8
+    },
+    {
+      "id": "vt-ocn-4",
+      "vessel": "MV Oceanic",
+      "time": "2025-08-28T06:00:00Z",
+      "lat": 26,
+      "lon": 57.2
+    },
+    {
+      "id": "vt-exp-1",
+      "vessel": "MV Explorer",
+      "time": "2025-08-25T00:00:00Z",
+      "lat": 35.2,
+      "lon": -1.1
+    },
+    {
+      "id": "vt-exp-2",
+      "vessel": "MV Explorer",
+      "time": "2025-08-26T00:00:00Z",
+      "lat": 34,
+      "lon": -3.2
+    },
+    {
+      "id": "vt-exp-3",
+      "vessel": "MV Explorer",
+      "time": "2025-08-27T12:00:00Z",
+      "lat": 33.1,
+      "lon": -4.8
+    }
+  ]
+}
