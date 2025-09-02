@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  padding: 2rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Arial", sans-serif;
+}
+
+h1 {
+  font-size: 16px;
+  margin-top: 0;
+}
+
+p {
+  color: rgb(107, 114, 128);
+  font-size: 15px;
+  margin-bottom: 10px;
+  margin-top: 5px;
+}
+
+.card {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 16px;
+  border: 1px solid lightgray;
+  border-radius: 16px;
+}
+
+.card p:last-child {
+  margin-bottom: 0;
+}
+
+.leaflet-container {
+  background: #0b1220;
+}
+
+.leaflet-tooltip.maptip {
+  background: rgba(15, 23, 42, 0.95);
+  color: #e2e8f0;
+  border: 1px solid rgba(30, 64, 175, 0.35);
+  border-radius: 8px;
+  padding: 6px 8px;
+}
