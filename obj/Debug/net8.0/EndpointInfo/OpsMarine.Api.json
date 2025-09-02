@@ -1,0 +1,415 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "OpsMarine.Api",
+    "version": "1.0"
+  },
+  "paths": {
+    "/alerts": {
+      "get": {
+        "tags": [
+          "Alerts"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/alerts/{id}/ack": {
+      "post": {
+        "tags": [
+          "Alerts"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fuel": {
+      "get": {
+        "tags": [
+          "Fuel"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fuel/{id}": {
+      "patch": {
+        "tags": [
+          "Fuel"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FuelPatch"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FuelPatch"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FuelPatch"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fuel/analytics/trend": {
+      "get": {
+        "tags": [
+          "FuelAnalytics"
+        ],
+        "parameters": [
+          {
+            "name": "days",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 30
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fuel/analytics/summary": {
+      "get": {
+        "tags": [
+          "FuelAnalytics"
+        ],
+        "parameters": [
+          {
+            "name": "days",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 30
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fuel/analytics/recommendations": {
+      "get": {
+        "tags": [
+          "FuelAnalytics"
+        ],
+        "parameters": [
+          {
+            "name": "days",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 30
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fuel/inspections": {
+      "get": {
+        "tags": [
+          "FuelAnalytics"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "FuelAnalytics"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FuelInspection"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FuelInspection"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/FuelInspection"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fuelLogs": {
+      "get": {
+        "tags": [
+          "FuelLogs"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fuel_logs": {
+      "get": {
+        "tags": [
+          "FuelLogs"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fuelLogs/{tankId}": {
+      "get": {
+        "tags": [
+          "FuelLogs"
+        ],
+        "parameters": [
+          {
+            "name": "tankId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/fuel_logs/{tankId}": {
+      "get": {
+        "tags": [
+          "FuelLogs"
+        ],
+        "parameters": [
+          {
+            "name": "tankId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/reports": {
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/vessels/stream": {
+      "get": {
+        "tags": [
+          "Stream"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/tickets": {
+      "get": {
+        "tags": [
+          "Tickets"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Tickets"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/vessels": {
+      "get": {
+        "tags": [
+          "Vessels"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/vessel_tracks": {
+      "get": {
+        "tags": [
+          "VesselTracks"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "FuelInspection": {
+        "required": [
+          "vessel"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "vessel": {
+            "maxLength": 128,
+            "minLength": 1,
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "hullFouling": {
+            "maximum": 5,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          },
+          "propeller": {
+            "maximum": 5,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          },
+          "engine": {
+            "maximum": 5,
+            "minimum": 0,
+            "type": "integer",
+            "format": "int32"
+          },
+          "trimOk": {
+            "type": "boolean"
+          },
+          "excessBallast": {
+            "type": "boolean"
+          },
+          "notes": {
+            "maxLength": 512,
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "FuelPatch": {
+        "type": "object",
+        "properties": {
+          "liters": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "percent": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

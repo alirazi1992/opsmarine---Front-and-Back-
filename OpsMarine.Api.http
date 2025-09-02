@@ -1,0 +1,6 @@
+@OpsMarine.Api_HostAddress = http://localhost:5073
+
+GET {{OpsMarine.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
