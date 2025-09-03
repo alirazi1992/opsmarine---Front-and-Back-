@@ -228,7 +228,7 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 
 - Use the forms your frontend calls:
 
-      - `/fuelLogs?tankId=...` or `/fuelLogs/{tankId}` (both implemented).
+ - `/fuelLogs?tankId=...` or `/fuelLogs/{tankId}` (both implemented).
 
 **CORS errors**
 
@@ -272,6 +272,7 @@ For questions or collaboration opportunities:
 **📧 Email:** ali.razi9292@gmail.com
 
 **🔗 LinkedIn:** linkedin.com/in/alirazi1992
+
 
 
 
