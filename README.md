@@ -53,32 +53,59 @@
 
   repo-root/
   apps/
+    
     api/                  # ASP.NET Core backend
+     
       OpsMarine.Api.sln
+    
       OpsMarine.Api/
+        
         Controllers/
+      
         Data/
+        
         Models/
+       
         Program.cs
+    
     web/                  # Frontend (Vite)
+     
       index.html
+      
       src/
+        
         main.js
+        
         routes/
+          
           vessels.js
+          
           fuel.js
+          
           tickets.js
+          
           newtickets.js
+          
           alerts.js
+         
           reports.js
+          
           settings.js
+      
       package.json
+ 
   docs/
+    
     screenshots/
+      
       dashboard.png
+      
       vessel-map.png
+      
       fuel-monitor.png
+      
       tickets.png
+ 
   README.md
 
 ----
@@ -272,6 +299,7 @@ For questions or collaboration opportunities:
 **📧 Email:** ali.razi9292@gmail.com
 
 **🔗 LinkedIn:** linkedin.com/in/alirazi1992
+
 
 
 
