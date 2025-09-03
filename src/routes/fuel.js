@@ -9,10 +9,12 @@ const fmtL    = (n) => `${Number(n || 0).toLocaleString()} L`;
 const nmPerKm = 0.539957;
 
 function litersOf(t){
-  if (isNum(t.liters)) return Number(t.liters);
-  if (isNum(t.percent) && isNum(t.capacity)) {
-    return Math.round((Number(t.percent)/100) * Number(t.capacity));
+  // Prefer percent×capacity so UI reflects servers that update % instead of absolute liters
+  const cap = Number(t.capacity||0);
+  if (cap > 0 && isNum(t.percent)) {
+    return Math.round((Number(t.percent)/100) * cap);
   }
+  if (isNum(t.liters)) return Number(t.liters);
   return 0;
 }
 function percentOf(t){
@@ -28,6 +30,9 @@ async function patchTank(tankId, newLiters, capacity){
     : { liters };
   return jpatch(`/fuel/${tankId}`, body);
 }
+
+// global refresh signal (used after refuel/transfer)
+function fuelBroadcastChanged(){ try{ window.dispatchEvent(new CustomEvent("fuel:changed")); }catch{} }
 
 /* great-circle distance (nm) */
 function nmBetween(a, b){
@@ -88,6 +93,7 @@ async function findVesselForTank(tank){
 /* -------------------- ocean-safe synthetic logs -------------------- */
 function synthLogs(tankId){
   const now = Date.now();
+  // open ocean corridor
   let lat = -10 + Math.random()*30;
   let lon = -50 + Math.random()*25;
   const out=[]; let level = 18000 - Math.random()*2500;
@@ -378,7 +384,7 @@ function openTankDetailsInstant(tank){
           h("div",{class:"text-xs text-slate-400 mt-2"},"Avg Speed"),
           h("div",{}, avgKts!=null ? `${avgKts.toFixed(1)} kn` : "—"),
           h("div",{class:"text-xs text-slate-400 mt-2"},"Burn Rates"),
-          h("div",{}, avgKts!=null && perNm>0 ? `${(perNm*avgKts).toFixed(0)} L/hr • ${(perNm*avgKts*24).toFixed(0)} L/day` : "—"),
+          h("div",{}, (avgKts!=null && perNm>0) ? `${(perNm*avgKts).toFixed(0)} L/hr • ${(perNm*avgKts*24).toFixed(0)} L/day` : "—"),
           h("div",{class:"text-xs text-slate-400 mt-2"},"Route Deviation"),
           h("div",{}, devPct!=null ? `${devPct.toFixed(1)}% vs GC` : "—"),
           mlLine || h("div")
@@ -475,7 +481,9 @@ function openRefuelModal({ tank, onDone }){
     const delta = Number(litersInput.value||0);
     if (!delta) return;
     await patchTank(tank.id, litersOf(tank)+delta, tank.capacity);
-    onDone?.(); closeModal(wrap);
+    fuelBroadcastChanged();                   // <— notify all views
+    onDone?.();
+    closeModal(wrap);
   };
   showPanel(wrap, "Log Refuel / Adjustment", [
     h("div",{class:"text-sm text-slate-400 mb-2"}, `Target: ${tank.name||"Tank"} — ${tank.vessel||"—"}`),
@@ -485,6 +493,7 @@ function openRefuelModal({ tank, onDone }){
     h("button",{class:"px-3 py-2 rounded bg-blue-600 hover:bg-blue-500", onClick:apply},"Apply")
   ]);
 }
+
 function openTransferModal({ tanks, preSourceId=null, onDone }){
   const wrap = modalWrap();
   const tankOpt = (t)=> h("option",{value:t.id}, `${t.name||"Tank"} — ${t.vessel||"—"} (${t.type||"—"})`);
@@ -521,7 +530,9 @@ function openTransferModal({ tanks, preSourceId=null, onDone }){
       patchTank(dst.id, dstL + actual, dst.capacity),
       jpost("/fuelTransfers", { time:new Date().toISOString(), fromId:src.id, toId:dst.id, liters:actual, fuelType:need }).catch(()=>{})
     ]);
-    onDone?.({actual}); closeModal(wrap);
+    fuelBroadcastChanged();                   // <— notify all views
+    onDone?.({actual});
+    closeModal(wrap);
   };
 
   showPanel(wrap, "Transfer Fuel", [
@@ -599,6 +610,15 @@ export async function routeFuel(){
     }
   }
 
+  // react to external updates (refuel/transfer)
+  window.addEventListener("fuel:changed", async ()=>{
+    try{
+      const fresh = await jget("/fuel");
+      if (Array.isArray(fresh)) tanks = fresh;
+      rerender(true);
+    }catch{}
+  });
+
   function tankCard(t){
     const cap = Number(t.capacity||0);
     const liters = litersOf(t);
@@ -644,6 +664,7 @@ export async function routeFuel(){
           await patchTank(t.id, nextL, cap);
           const fresh = await jget("/fuel");
           Object.assign(t, fresh.find(x=> toStr(x.id)===toStr(t.id)) || t);
+          fuelBroadcastChanged();  // keep other views in sync
           rerender(true);
         }
       }, label);
@@ -726,15 +747,16 @@ function importancePercent(model){
     .sort((a,b)=> b.pct - a.pct);
 }
 function confBadge(r2){
+  const r = Number(r2||0);
   let label="Low", cls="bg-yellow-900/40 text-yellow-300";
-  if (r2>=0.7){ label="High"; cls="bg-green-900/40 text-green-300"; }
-  else if (r2>=0.4){ label="Medium"; cls="bg-blue-900/40 text-blue-300"; }
+  if (r>=0.7){ label="High"; cls="bg-green-900/40 text-green-300"; }
+  else if (r>=0.4){ label="Medium"; cls="bg-blue-900/40 text-blue-300"; }
   return h("span",{class:`text-xs px-2 py-0.5 rounded-full ${cls}`},`Confidence: ${label}`);
 }
 function chip(text, cls="bg-slate-700/60 text-slate-200"){ return h("span",{class:`text-xs px-2 py-0.5 rounded-full ${cls}`}, text); }
 function bar(label,pct,colorCls="bg-cyan-500"){
   return h("div",{class:"space-y-1"},[
-    h("div",{class:"flex justify-between text-xs"},[ h("span",{},label), h("span",{class:"text-slate-400"},`${pct.toFixed(1)}%`) ]),
+    h("div",{class:"flex justify-between text-xs"},[ h("span",{},label), h("span",{class:"text-slate-400"},`${Number(pct||0).toFixed(1)}%`) ]),
     h("div",{class:"w-full h-2 bg-slate-800/60 rounded"}, h("div",{class:`h-2 ${colorCls} rounded`, style:`width:${Math.min(100,Math.max(0,pct))}%`}))
   ]);
 }
@@ -962,9 +984,9 @@ function buildMLPanel(inspections){
   function renderModelSummary(m){
     topLine.innerHTML = "";
     topLine.appendChild(chip(`Samples: ${m.n}`, "bg-slate-700/60 text-slate-200"));
-    topLine.appendChild(chip(`R²: ${m.r2.toFixed(2)}`, "bg-slate-700/60 text-slate-200"));
-    topLine.appendChild(chip(`MAE: ${Math.round(m.mae).toLocaleString()} L/h`, "bg-slate-700/60 text-slate-200"));
-    topLine.appendChild(confBadge(m.r2));
+    topLine.appendChild(chip(`R²: ${Number(m.r2||0).toFixed(2)}`, "bg-slate-700/60 text-slate-200"));
+    topLine.appendChild(chip(`MAE: ${Math.round(Number(m.mae||0)).toLocaleString()} L/h`, "bg-slate-700/60 text-slate-200"));
+    topLine.appendChild(confBadge(Number(m.r2||0)));
     if (m.augmented){
       const tag = m.demo ? "Demo model" : `Augmented (real ${m.n_real||0})`;
       topLine.appendChild(chip(tag, "bg-blue-900/40 text-cyan-300"));
@@ -983,7 +1005,7 @@ function buildMLPanel(inspections){
     const details = h("details",{class:"rounded-xl bg-slate-800/60 p-3"},[
       h("summary",{class:"cursor-pointer text-sm font-semibold select-none"},"Model coefficients (z-scored)"),
       h("div",{class:"mt-2 grid md:grid-cols-2 gap-1 text-xs"},
-        FEATURE_NAMES.map((name,i)=> h("div",{},`${FEATURE_LABELS[name]||name}: ${m.w[i]>=0?"+":""}${m.w[i].toFixed(3)}`))
+        FEATURE_NAMES.map((name,i)=> h("div",{},`${FEATURE_LABELS[name]||name}: ${(m.w?.[i]??0)>=0?"+":""}${Number(m.w?.[i]??0).toFixed(3)}`))
       )
     ]);
     coefWrap.appendChild(details);
@@ -1075,10 +1097,10 @@ function buildPredictForm(){
     };
     const distanceNm = Number(toVal(dist))||0;
 
-    const lph = model ? predictLph(model, raw) : fallbackCube(raw);
+    const lph = model ? (predictLph(model, raw) ?? 0) : fallbackCube(raw);
     const lpd = lph*24;
-    const trip = lph * (distanceNm / Math.max(1, raw.speed));
-    const lphUp = model ? predictLph(model, {...raw, speed: raw.speed+1}) : fallbackCube({...raw, speed: raw.speed+1});
+    const trip = lph * (distanceNm / Math.max(1, raw.speed||1));
+    const lphUp = model ? (predictLph(model, {...raw, speed: raw.speed+1}) ?? 0) : fallbackCube({...raw, speed: raw.speed+1});
     const delta = Math.max(0, lphUp - lph);
 
     out.children[0].querySelector("div:last-child").textContent = Math.round(lph).toLocaleString();
@@ -1113,7 +1135,7 @@ function adviceFrom(raw, model, topDriverLabel="—"){
   if (top3.includes("Equipment condition")) tips.push("Schedule hull/prop/engine maintenance to cut drag.");
   return `
     <div class="mt-2 text-xs text-slate-300">
-      <div class="mb-1">Top driver: <b>${topDriverLabel}</b>${ raw.speed ? ` • Scenario speed: <b>${raw.speed.toFixed(1)} kn</b>` : ""}</div>
+      <div class="mb-1">Top driver: <b>${topDriverLabel}</b>${ raw.speed ? ` • Scenario speed: <b>${Number(raw.speed).toFixed(1)} kn</b>` : ""}</div>
       ${tips.map(t=>`<div>• ${t}</div>`).join("")}
     </div>`;
 }
