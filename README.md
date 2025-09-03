@@ -5,61 +5,147 @@
 
  # ✨ Highlights
 
+- **Real-time Vessel Map** (Leaflet + SSE): live markers, status, speed, heading, filters
+
+- **Fuel Monitoring**: tanks, refuels, transfers, trends, projections, and efficiency KPIs
+
+- **Fuel Efficiency “ML-style” Model**: estimates impact of **speed, route, weather, load, equipment**
+
+- **IT Ticketing**: create, view, and track tickets from the UI or Swagger
+
+- **Alerts & Report**s: system alerts plus quick reporting views
+
+- **Swagger API**: explore every endpoint at `/swagger`
+
+- **Monorepo-ready**: ship both **backend (.NET 8)** and **frontend (Vite)** together
+
+---
+
+📸 Screenshots
+
+
+- **Dashboard Overview**
+
+
+- **Vessel Map**
+
+
+- **Fuel Monitoring & Trend**
+
+
+- **Ticketing**
  
- 
+ ----
 
+## 🧱 Tech Stack
 
+- **Backend**: ASP.NET Core 8 (C#), Minimal APIs/Controllers, EF Core (InMemory for demo)
 
+- **Frontend**: Vite, Vanilla JS (modular), Tailwind (CDN for dev), Leaflet
 
+- **Data**: InMemory seed (demo), optional AIS stream integration (future)
 
+- **Live updates**: Server-Sent Events (SSE) `/vessels/stream`
 
-# OpsMarine Frontend
+  ----
+## 🗂 Project Structure 
 
-A modern frontend for the OpsMarine application — leveraging Tailwind CSS and a component-based architecture to build a responsive, clean, and efficient user interface for marine operations.
+repo-root/
+  apps/
+  
+    api/                  # ASP.NET Core backend
+    
+      OpsMarine.Api.sln
+      
+      OpsMarine.Api/
+      
+        Controllers/
+        
+        Data/
+        
+        Models/
+        
+        Program.cs
+        
+    web/                  # Frontend (Vite)
+    
+      index.html
+      
+      src/
+      
+        main.js
+        
+        routes/
+        
+          vessels.js
+          
+          fuel.js
+          
+          tickets.js
+          
+          newtickets.js
+          
+          alerts.js
+          
+          reports.js
+          
+          settings.js
+          
+      package.json
+      
+  docs/
+  
+    screenshots/
+    
+      dashboard.png
+      
+      vessel-map.png
+      
+      fuel-monitor.png
+      
+      tickets.png
+      
+  README.md
 
----
-
-##  Overview
-
-OpsMarine is designed for managing marine operations with ease and clarity. This frontend version allows you to:
-- Navigate marine operation data cleanly using a responsive UI  
-- Simulate or visualize data using the included `db.json` (ideal for prototyping or offline development)  
-- Easily expand as the backend grows or integrates with APIs
-
----
-
-##  Features
-
-- **Tailwind CSS**: Lightweight and highly customizable styling  
-- **Component Structure**: Easily maintainable and scalable structure under `src/`  
-- **Mock Data Support**: `db.json` can be used with tools like `json-server` to mock APIs and speed up development  
-- **Dev-Friendly**: Built for fast local development and rapid iteration
-
----
-
-##  Getting Started
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org) (v14+ recommended)  
-- [npm](https://npmjs.com) (or Yarn)
 ----
 
-### Project Structure
+## 🚀 Quick Start (Local Dev)
 
-opsmarine-/
+**1) Backend (API)**
 
-├── src/                 # Source files (components, assets, etc.)
+Requirements: **.NET 8 SDK, Visual Studio 2022** (or `dotnet` CLI)
 
-├── index.html           # Entry point
+1. Open `apps/api/OpsMarine.Api.sln` in Visual Studio.
 
-├── package.json         # Project metadata and dependencies
+2. Set `OpsMarine.Api` as startup project.
 
-├── tailwind.config.js   # Tailwind CSS configuration
+3. Run **F5** (or `dotnet run` in `apps/api/OpsMarine.Api/`).
 
-├── db.json              # Mock data for development
+You should see logs like:
 
-----
+Now listening on: http://localhost:7001
+Application started. Press Ctrl+C to shut down.
+Open Swagger: http://localhost:7001/swagger
+
+**2) Frontend (Web)**
+
+Requirements: **Node 18+**
+
+```bash
+cd apps/web
+npm install
+# Tell the web app where the API is:
+# Option A: pass at runtime (dev)
+set VITE_API_BASE=http://localhost:7001
+npm run dev
+
+# or put it in a .env file:
+# .env
+# VITE_API_BASE=http://localhost:7001
+```
+
+
+
 
 ## 🤝 Contributing 
 
@@ -72,4 +158,5 @@ For questions or collaboration opportunities:
 **📧 Email:** ali.razi9292@gmail.com
 
 **🔗 LinkedIn:** linkedin.com/in/alirazi1992
+
 
